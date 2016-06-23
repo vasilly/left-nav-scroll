@@ -226,6 +226,7 @@
    </div>
 
    <script>
+   var scrollInterval=false;
 function scrollTo(to, duration) {
   var startTime = +new Date();
     if (document.body.scrollTop == to) return;
@@ -233,7 +234,7 @@ function scrollTo(to, duration) {
     var count = 0, currPos, maxCount=100, PI=Math.PI/maxCount;
     var init=document.body.scrollTop
     // start = element.scrollTop;
-
+if(scrollInterval)clearInterval(scrollInterval)
     scrollInterval = setInterval(function(){
         if (count<maxCount) {
             count++;
