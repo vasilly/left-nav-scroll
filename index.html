@@ -7,7 +7,7 @@
 
 
 
-  #menu{
+  #left-menu{
     border:1px solid grey;
     border-radius:5px;
     position:fixed;
@@ -17,7 +17,7 @@
     left:0.5rem;
     top:10rem;
   }
-.header a, .menu, #tt{
+.header a, #tt, #left-menu a{
   border:1px solid grey;
   border-radius:5px;
   background-color: white;
@@ -28,12 +28,8 @@
   font-size: 2rem;
 }
 #tt{
-  /*border:1px solid grey;*/
-  /*border-radius:5px;*/
   position:fixed;
-  /*background-color: white;*/
   padding:0.5rem;
-  /*width:10rem;*/
   left:20rem;
   top:10rem;
 }
@@ -43,22 +39,29 @@
 /* Extra Small Devices, Phones */
 
 @media only screen and (min-width: 480px) {
-  .header a, .menu, #tt{
+  .header a, #tt, #left-menu a{
     font-size:4rem ;
   }
 }
 /* Small Devices, Tablets */
 
-@media only screen and (min-width: 768px) {}
+@media only screen and (min-width: 768px) {
+  .header a, #tt, #left-menu a{
+    font-size:1.5rem ;
+  }
+  #left-menu{
+    color:red
+  }
+}
 /* Medium Devices, Desktops */
 
-@media only screen and (min-width: 992px) {}
+@media only screen and (min-width: 992px) {
+
+}
 /* Large Devices, Wide Screens */
 
 @media only screen and (min-width: 1200px) {
-  .header a, .menu, #tt{
-    font-size:4rem ;
-  }
+
 }
   </style>
 </head>
@@ -69,12 +72,12 @@
     <h3 id="t2"></h3>
     <h3 id="t3"></h3>
   </div>
-  <div id="menu">
+  <div id="left-menu">
     <h3>Menu</h3>
-    <a class="menu" href="#S1" onclick="test('S1'); return false;">S1</a>
-    <a class="menu" href="#S2" onclick="test('S2'); return false;">S2</a>
-    <a class="menu" href="#S3" onclick="test('S3'); return false;">S3</a>
-    <a class="menu" href="#S4" onclick="test('S4'); return false;">S4</a>
+    <a href="#S1" onclick="test('S1'); return false;">S1</a>
+    <a href="#S2" onclick="test('S2'); return false;">S2</a>
+    <a href="#S3" onclick="test('S3'); return false;">S3</a>
+    <a href="#S4" onclick="test('S4'); return false;">S4</a>
   </div>
 
 
