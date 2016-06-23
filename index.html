@@ -13,7 +13,6 @@
     position:fixed;
     background-color: white;
     padding:0.5rem;
-    width:3rem;
     left:0.5rem;
     top:10rem;
   }
@@ -33,21 +32,26 @@
   left:20rem;
   top:10rem;
 }
-
-
+#left-menu{
+width:3rem;
+}
 /*responsive*/
 /* Extra Small Devices, Phones */
 
 @media only screen and (min-width: 480px) {
   .header a, #tt, #left-menu a{
     font-size:4rem ;
+
+  }
+  #left-menu{
+  width:6rem;
   }
 }
 /* Small Devices, Tablets */
 
 @media only screen and (min-width: 768px) {
-  .header a, #tt, #left-menu a{
-    font-size:1.5rem ;
+  .header a, #tt, #left-menu a, #left-menu h3{
+    font-size:3rem ;
   }
   #left-menu{
     color:red
