@@ -1,0 +1,199 @@
+<style>
+* {
+    box-sizing: border-box
+}
+
+.box {
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: 25%;
+    height: 25%;
+    padding: 1rem;
+    text-align: center;
+    margin: 1rem;
+    float: left;
+}
+
+#txt1 {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    border: 1px solid grey;
+    border-radius: 5px;
+    bottom:5rem;
+}
+</style>
+
+<div id="dim">
+    <span class="top"></span>
+    <span class="left"></span>
+</div>
+<div id="txt1">txt1
+<svg id="measure" width="100%" height="100%" onresize="update()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <path d="M0 0 L 100 100" style="stroke: #000000" id="pathHorisontal" />
+    <path d="M0 0 L 100 100" style="stroke: #000000" id="pathVertical" />
+    <rect x="-100" y="-100" width="100px" height="100px" fill="white" id="rectHorisontal" />
+    <rect x="-100" y="-100" width="100px" height="100px" fill="white" id="rectVertical" />
+    <text x="50%" y="45%" id="height" style="font-family: monospace; font-size: 10pt; text-anchor: middle; writing-mode: tb;">vertical</text>
+    <text x="50%" y="50%" id="width" style="font-family: monospace; font-size: 10pt; text-anchor: middle">horisontal</text>
+    <defs>
+        <script type="text/javascript">
+        var count = 0,
+            speed = 50,
+            padding = 5;
+        var pathHorisontal, pathVertical, rectHorisontal, rectVertical, width, height, rect, bboxHorisontal, bboxVertical;
+
+        function update() {
+            count++;
+            if (count > speed) {
+                count = 0;
+                if (!pathHorisontal) {
+                    pathHorisontal = document.getElementById('pathHorisontal'),
+                        pathVertical = document.getElementById('pathVertical'),
+                        rectHorisontal = document.getElementById('rectHorisontal'),
+                        rectVertical = document.getElementById('rectVertical'),
+                        width = document.getElementById("width"),
+                        height = document.getElementById("height");
+                }
+
+                var cs = getComputedStyle(pathHorisontal.parentNode);
+                // document.querySelector("p").closest(".near.ancestor")
+                // display('txt1',cs)
+                // if(!once){console.log(pathHorisontal.parentNode.parentNode.classList.value);once++}
+                var iWidth = parseInt(cs.width),
+                    iHeight = parseInt(cs.height),
+                    cx = iWidth / 2,
+                    cy = iHeight / 2;
+
+                var xpos = (iWidth - padding < 0) ? 0 : (iWidth - padding),
+                    ypos = (iHeight - padding < 0) ? 0 : (iHeight - padding),
+                    cx = (cx < 0) ? 0 : cx,
+                    cy = (cy < 0) ? 0 : cy;
+
+
+                width.textContent = iWidth + 'px';
+                width.setAttribute("x", cx);
+                width.setAttribute("y", cy);
+
+                height.textContent = iHeight + 'px';
+
+
+                pathHorisontal.setAttribute('d', 'M 8 ' + cy + ' L ' + xpos + ' ' + cy);
+                pathVertical.setAttribute('d', 'M ' + cx + ' 8 L ' + cx + ' ' + ypos);
+
+                bboxHorisontal = width.getBBox(),
+                    bboxVertical = height.getBBox();
+
+                height.setAttribute("y", cy - bboxVertical.height);
+                height.setAttribute("x", cx);
+
+                rectHorisontal.setAttribute('x', bboxHorisontal.x - padding);
+                rectHorisontal.setAttribute('y', bboxHorisontal.y - padding);
+                rectHorisontal.setAttribute('height', bboxHorisontal.height + padding * 2);
+                rectHorisontal.setAttribute('width', bboxHorisontal.width + padding * 2);
+
+                rectVertical.setAttribute('x', bboxVertical.x - padding);
+                rectVertical.setAttribute('y', bboxVertical.y - padding);
+                rectVertical.setAttribute('height', bboxVertical.height + padding * 2);
+                rectVertical.setAttribute('width', bboxVertical.width + padding * 2);
+
+            }
+            // window.requestAnimationFrame(update);
+        }
+        // window.requestAnimationFrame(update);
+        </script>
+        <style>
+        #pathHorisontal,
+        #width {
+            display: block;
+            marker-start: url(#Square);
+            marker-end: url(#Square);
+        }
+
+        #pathVertical,
+        #height {
+            display: block;
+            marker-start: url(#Square);
+            marker-end: url(#Square);
+        }
+        </style>
+        <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
+        </marker>
+        <marker id="Square" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+            <path d="M 5,1 L 9,5 5,9 1,5 z" fill="#6a9100" />
+        </marker>
+    </defs>
+</svg>
+</div>
+<div>
+    <div class="box">
+        <div class="box">a</div>
+        inner
+    </div>
+    <div class="box">a</div>
+    <div class="box">a</div>
+    <div class="box">a</div>
+    <div class="box">a</div>
+    <div class="box">a</div>
+</div>
+<script>
+var m = document.getElementById("measure").outerHTML;
+document.getElementById("measure").outerHTML = "";
+// document.querySelector(".box")
+
+var boxes = document.querySelectorAll('.box');
+// array.from is !IE
+Array.from(boxes).forEach(box => {
+    box.addEventListener('click', function(event) {
+        event.stopPropagation(); // kill parent click
+        // var rect = box.getBoundingClientRect();
+        // display('txt1',rect.top+", "+rect.right+", "+rect.bottom+", "+rect.left);
+        addClientRectsOverlay(box)
+            // parentNode is our bounding box
+            // the minimum boundary is based on the top left corner of our container
+            // obj.minBoundX = e.parentNode.offsetLeft;
+            // obj.minBoundY = e.parentNode.offsetTop;
+            // box.innerHTML=m;
+            // update()
+    });
+});
+
+
+function addClientRectsOverlay(elt) { //MDN
+    // Absolutely position a div over each client rect so that its border width
+    // is the same as the rectangle's width.
+    // Note: the overlays will be out of place if the user resizes or zooms.
+    var rects = elt.getClientRects();
+    for (var i = 0; i != rects.length; i++) {
+        var rect = rects[i];
+        var tableRectDiv = document.getElementById('dim') || document.createElement('div').setAttribute("id", "dim");;
+        // tableRectDiv.innerHTML= m
+
+        tableRectDiv.style = 'line-height: ' + rect.height + 'px;height: ' + rect.height + 'px;text-align: center;';
+        tableRectDiv.style.position = 'absolute';
+        tableRectDiv.style.border = '1px solid red';
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        tableRectDiv.style.margin = tableRectDiv.style.padding = '0';
+        tableRectDiv.style.top = (rect.top + scrollTop) + 'px';
+        tableRectDiv.style.left = (rect.left + scrollLeft) + 'px';
+        // we want rect.width to be the border width, so content width is 2px less.
+        tableRectDiv.style.width = (rect.width) + 'px';
+        tableRectDiv.style.height = (rect.height) + 'px';
+        var txtTop = tableRectDiv.querySelector('.top')
+            // txtTop.style='text-align: center;'
+            // tableRectDiv.style.textAlign = "center";
+        txtTop.innerHTML = rect.top + scrollTop
+        display('txt1', elt.classList)
+        document.body.appendChild(tableRectDiv);
+    }
+}
+
+
+function display(id, txt) {
+    var dest = document.getElementById(id);
+    dest.innerHTML = txt
+}
+once = 0
+</script>
